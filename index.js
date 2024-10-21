@@ -94,22 +94,14 @@ async function displayMovies() {
  * @param {string} newEmail New email address of the customer
  */
 async function updateCustomerEmail(customerId, newEmail) {
-  try {
-    const result = await pool.query(
-      'UPDATE customers SET email = $1 WHERE customer_id = $2',
-      [newEmail, customerId]
-    );
-
-    if (result.rowCount > 0) {
-      console.log(`Customer ID ${customerId} email updated to ${newEmail}.`);
-    } else {
-      console.log(`Customer ID ${customerId} not found.`);
-    }
-  } catch (err) {
-    console.error('Error updating customer email:', err);
-  }
+  const query = `
+    UPDATE customers
+    SET email = $1
+    WHERE customer_id = $2;
+  `;
+  await pool.query(query, [newEmail, customerId]);
+  console.log(`Customer ${customerId}'s email updated to ${newEmail}.`);
 }
-
 
 /**
  * Removes a customer from the database along with their rental history.
@@ -117,18 +109,12 @@ async function updateCustomerEmail(customerId, newEmail) {
  * @param {number} customerId ID of the customer to remove
  */
 async function removeCustomer(customerId) {
-  try {
-    await pool.query('DELETE FROM rentals WHERE customer_id = $1', [customerId]);
-    const result = await pool.query('DELETE FROM customers WHERE customer_id = $1', [customerId]);
-
-    if (result.rowCount > 0) {
-      console.log(`Customer ID ${customerId} removed along with rental history.`);
-    } else {
-      console.log(`Customer ID ${customerId} not found.`);
-    }
-  } catch (err) {
-    console.error('Error removing customer:', err);
-  }
+  const query = `
+    DELETE FROM customers
+    WHERE customer_id = $1;
+  `;
+  await pool.query(query, [customerId]);
+  console.log(`Customer ${customerId} and their movie rental history has been deleted.`);
 }
 
 

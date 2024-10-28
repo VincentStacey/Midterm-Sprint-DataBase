@@ -1,0 +1,16 @@
+Normalization Explanation: 
+
+Movies Table: 
+1NF: Each piece of data (title, release_year, genre, etc.) is stored in its own column—no lists or combined data.
+2NF: All columns (like title, release_year, genre, director) depend on the movie_id. The whole row is about that one movie, identified by movie_id.
+3NF: The columns don’t depend on each other—only on movie_id. For example, the director doesn’t depend on the genre, just on which movie it is.
+
+Customers Table:
+1NF: Each piece of customer info (first_name, last_name, email, etc.) is in its own column.
+2NF: All the details (like first name, email, etc.) depend entirely on the customer_id. If you know the customer ID, you know all the other details.
+3NF: None of the columns depend on each other—only on the customer_id. The phone number doesn’t rely on the email, just on which customer it is
+
+Rentals Table:
+1NF: Each piece of rental info (rental date, return date, etc.) is in its own column.
+2NF: All details (like rental date) depend entirely on the rental_id (which rental it is).
+3NF: The columns don’t depend on each other. The movie and customer info are connected through IDs, not through each other directly.
